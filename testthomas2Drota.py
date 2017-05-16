@@ -39,11 +39,14 @@ class TestThomas2DRota(gym.Env):
 	self.count = 0
 	self.counter = 0
 	self.reservoir = 100
+	self.water_reserve = 1000
 	self.reservoir_lim = 100
 	self.battery = 10000000000000000
 	self.battery_lim = 10000000000000000
 	self.temperature = 0
 	self.tempLim = 200
+	self.stepcount = 20
+	self.rand = 0
         # Angle at which to fail the episode
         self.theta_threshold_radians = 12 * 2 * math.pi / 360
         self.x_threshold = 2.4
@@ -94,6 +97,23 @@ class TestThomas2DRota(gym.Env):
         #print(state)
         #x, x_dot, theta, theta_dot, v1, v2, v3, v4 = state # TODO TODO TODO access data from a tuple
 
+	#random water loss and gain
+	if (self.stepcount == 20):
+		self.rand = self.np_random.uniform(0,1)
+	
+	if (self.rand<0.2 and self.water_reserve >0):
+		loss = np.floor(self.np_random.uniform(0,1)*10)
+		self.water_reserve -= loss
+		self.stepcount -= 1
+		
+	if (self.rand > 0.8 and self.water_reserve < 1000):
+		gain = np.floor(self.np_random.uniform(0,1)*10)
+		self.water_reserve += gain
+		self.stepcount -= 1
+	 
+	if (self.stepcount == 0):
+	 	self.stepcount = 20
+
 	print("second impression")
         x = state[0]
         y = state[1]
@@ -131,7 +151,7 @@ class TestThomas2DRota(gym.Env):
 	if ( (0.1*self.battery_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.battery_zone[0]+x_lim) and (0.1*self.battery_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.battery_zone[1]+y_lim) and self.battery<self.battery_lim):
 		self.battery += 1
 	
-	if ( (0.1*self.water_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.water_zone[0]+x_lim) and (0.1*self.water_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.water_zone[1]+y_lim) and self.reservoir<self.reservoir_lim):
+	if ( (0.1*self.water_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.water_zone[0]+x_lim) and (0.1*self.water_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.water_zone[1]+y_lim) and self.reservoir<self.reservoir_lim and self.water_reserve > 0):
 		self.reservoir += 1
 	
 	#temperature indicator
