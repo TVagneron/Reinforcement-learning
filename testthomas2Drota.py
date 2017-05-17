@@ -100,32 +100,32 @@ class TestThomas2DRota(gym.Env):
         state = self.state
 
 	#water loss via nb of fuites
-	if (self.stepcount == 50):
-		self.rand = self.np_random.uniform(0,1)
-	
 	Frand = self.np_random.uniform(0,1)	
-	if (Frand<0.05 and self.fuites_count < len(self.fuites)):
+	if (Frand<0.05 and self.fuites_count < len(self.fuites)): #apparition de fuite aleatoire
 		self.fuites_count += 1
 		self.fuites[self.fuites_count - 1] = 1
 	
-	if (self.water_reserve >0):
-		loss = np.floor(self.np_random.uniform(0,1)*5)*self.fuites_count
+	if (self.water_reserve >0): 
+		loss = np.floor(self.np_random.uniform(0,1)*5)*self.fuites_count #perte d'eau
 		self.water_reserve -= loss
 		if (self.water_reserve < 0):
 			self.water_reserve = 0
 		
 	#maintenance of the water reserve
-	if (self.rand > 0.5 and self.water_reserve < 1000):
+	if (self.stepcount == 50):
+		self.rand = self.np_random.uniform(0,1)
+		
+	if (self.rand > 0.5): #detection aleatoire (ici une chance sur deux)
 		Hrand = self.np_random.uniform(0,1)
-		if (Hrand > 0.5 or self.stepcount < 50):
+		if (Hrand > 0.5 or self.stepcount < 50): # une chance sur deux d'enclencher une action, puis effectuees au bout d'un temps aleatoire
 			self.stepcount -= np.floor(self.np_random.uniform(0,1)*10)
 		if (self.stepcount <= 0):
 	 		self.stepcount = 50
-	 		self.water_reserve += 50
+	 		self.water_reserve += 50 #gain d'eau dans la reserve lors de l'action effectuee
 	 		if (self.water_reserve > self.water_reserve_lim):
 	 			self.water_reserve = self.water_reserve_lim
 	 		if (self.fuites_count >0):
-	 			self.fuites_count -= 1
+	 			self.fuites_count -= 1 #diminution du niveau de fuite de 1
 	 			self.fuites[self.fuites_count] = 0
 			
 	
@@ -178,6 +178,7 @@ class TestThomas2DRota(gym.Env):
 		
 	
 	#temperature indicator
+	#zone de detection => cercle
 	tempcounter = 0
 	for i in range(len(self.treeslocations)/2):
 		ifcounter = 0
@@ -289,6 +290,8 @@ class TestThomas2DRota(gym.Env):
         if self.viewer is None:
             from gym.envs.classic_control import rendering
             self.viewer = rendering.Viewer(screen_width, screen_height, display=self.display)
+            
+            #affichage robot
             l,r,t,b = -cartwidth/2, cartwidth/2, cartheight/2, -cartheight/2
             axleoffset =cartheight/4.0
 	    self.chose = []
@@ -297,9 +300,12 @@ class TestThomas2DRota(gym.Env):
             self.carttrans = rendering.Transform()
             cart.add_attr(self.carttrans)
             self.viewer.add_geom(self.chose[0])
+            
+             #affichage ligne de separation
             self.ligne = rendering.Line((600,0), (600,600))
             self.ligne.set_color(0,0,0)
             self.viewer.add_geom(self.ligne)
+            
             #affichage arbres
             self.truc = []
             cpt = 0
