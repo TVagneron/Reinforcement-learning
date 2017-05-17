@@ -92,18 +92,14 @@ class TestThomas2DRota(gym.Env):
         scale = screen_width/world_width
         cartwidth = 20.0
         cartheight = 20.0
-	x_lim = cartwidth*scale/screen_width
-	y_lim = cartheight*scale/screen_height
+	x_lim = 0.01*cartwidth*scale/screen_width
+	y_lim = 0.01*cartheight*scale/screen_height
 
-	print("first impression")
 
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
         state = self.state
-        #print("bla")
-        #print(state)
-        #x, x_dot, theta, theta_dot, v1, v2, v3, v4 = state # TODO TODO TODO access data from a tuple
 
-	#random water loss and gain
+	#water loss via nb of fuites
 	if (self.stepcount == 50):
 		self.rand = self.np_random.uniform(0,1)
 	
@@ -118,24 +114,23 @@ class TestThomas2DRota(gym.Env):
 		if (self.water_reserve < 0):
 			self.water_reserve = 0
 		
-
+	#maintenance of the water reserve
 	if (self.rand > 0.5 and self.water_reserve < 1000):
 		Hrand = self.np_random.uniform(0,1)
 		if (Hrand > 0.5 or self.stepcount < 50):
 			self.stepcount -= np.floor(self.np_random.uniform(0,1)*10)
-		if (self.stepcount < 0):
+		if (self.stepcount <= 0):
 	 		self.stepcount = 50
-	 		self.water_reserve += 100
-	 		if (self.water_reserve > 1000):
-	 			self.water_reserve = 1000
+	 		self.water_reserve += 50
+	 		if (self.water_reserve > self.water_reserve_lim):
+	 			self.water_reserve = self.water_reserve_lim
 	 		if (self.fuites_count >0):
 	 			self.fuites_count -= 1
 	 			self.fuites[self.fuites_count] = 0
 			
 	
 
-
-	print("second impression")
+	#tree states
         x = state[0]
         y = state[1]
         theta = state[2]
@@ -144,7 +139,6 @@ class TestThomas2DRota(gym.Env):
         for i in range(len(self.treeslocations)/2):
             treesStatesList.append(state[4+i])
 	treesStates = ()
-        #print(treesStates)
 
 	#movement
 	vitesse= 0
@@ -167,13 +161,14 @@ class TestThomas2DRota(gym.Env):
 	y = y + self.tau * vitesse * sintheta
 
 
-	print("third impression")
 	#filling zone
+	#battery
 	if ( (0.1*self.battery_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.battery_zone[0]+x_lim) and (0.1*self.battery_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.battery_zone[1]+y_lim) and self.battery<self.battery_lim):
 		self.battery += 1
 		if (self.battery > self.battery_lim):
 			self.battery = self.battery_lim
 	
+	#water
 	if ( (0.1*self.water_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.water_zone[0]+x_lim) and (0.1*self.water_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.water_zone[1]+y_lim) and self.reservoir<self.reservoir_lim and self.water_reserve > 0):
 		if (self.reservoir >= self.reservoir_lim):
 			self.reservoir = self.reservoir_lim
@@ -193,7 +188,6 @@ class TestThomas2DRota(gym.Env):
 		elif (d<0.05 and self.state[4+i]==0 and self.temperature != 0 and ifcounter == 0):
 			tempcounter += 1
 
-	print("fourth impression")
 	#increase or decrease of the robot temperature
 	if (tempcounter == len(self.treeslocations)/2 and self.temperature != 0):
 		self.temperature -= 1
@@ -207,7 +201,6 @@ class TestThomas2DRota(gym.Env):
 	if (action ==2):
 		self.reservoir -= 1
 	
-	print("fifth impression")
 	#action of extinguishing the fire
 	for i in range(len(self.treeslocations)/2):
 		d = np.sqrt(np.power((np.absolute(0.1*self.treeslocations[i]))-(np.absolute(self.state[0]*scale/screen_width+0.5)),2)+np.power((np.absolute(0.1*self.treeslocations[i+(len(self.treeslocations)/2)])-np.absolute(self.state[1]*scale/screen_width+0.5)),2))
@@ -222,12 +215,9 @@ class TestThomas2DRota(gym.Env):
             if((treesStatesList[i]==0) and (self.np_random.uniform(0,1)>0.8)):
                 b=1
             treesStates += (b,)
-        print(treesStates)
-	print(self.state[0]*scale/world_width+0.5)
         self.state = (x,y,theta,theta_dot) + treesStates 
 	
-	print(self.reservoir)
-	print("sixth impression")
+
         time.sleep(0.5)
 	self.count += 1
 	done = False
@@ -259,7 +249,6 @@ class TestThomas2DRota(gym.Env):
 		done = True
 		reward = self.counter
         
-	print("seventh impression")
 	reward = self.counter
 	return np.array(self.state), reward, done, {}
 
@@ -276,12 +265,6 @@ class TestThomas2DRota(gym.Env):
 	self.water_reserve = self.water_reserve_lim
 	self.stepcount = 50
 	print(self.state)
-        #print("reset")
-        #print(firstPart)
-        #print(treesStates)
-        #self.state = np.concatenate((firstPart , treesStates), axis=0)
-	#print("self.state")
-        #print(self.state)	
         self.steps_beyond_done = None
         return np.array(self.state)
 
@@ -370,11 +353,16 @@ class TestThomas2DRota(gym.Env):
             else:
 		self.fuites_render[i].set_color(0,0,0)
 		
-	reservoir_color = 1- self.reservoir/self.reservoir_lim
+	reservoir_color = (self.reservoir_lim-self.reservoir)/self.reservoir_lim
+	print(self.reservoir_lim)
+	print(self.reservoir)
+	print(self.reservoir/self.reservoir_lim)
+	print(reservoir_color)
 	self.reservoir_render.set_color(reservoir_color,reservoir_color,1)
 	red_color = self.temperature /self.tempLim
 	self.chose[0].set_color(red_color,0,0)
-	blue_color = 1-self.water_reserve/self.water_reserve_lim
+	blue_color = 1-(self.water_reserve/self.water_reserve_lim)
+	print(blue_color)
 	self.zone_w.set_color(blue_color,blue_color,1)
 	print("hello world")
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
