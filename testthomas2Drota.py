@@ -218,7 +218,7 @@ class TestThomas2DRota(gym.Env):
         self.state = (x,y,theta,theta_dot) + treesStates 
 	
 
-        time.sleep(0.5)
+        #time.sleep(0.5)
 	self.count += 1
 	done = False
 	
@@ -300,6 +300,7 @@ class TestThomas2DRota(gym.Env):
             self.ligne = rendering.Line((600,0), (600,600))
             self.ligne.set_color(0,0,0)
             self.viewer.add_geom(self.ligne)
+            #affichage arbres
             self.truc = []
             cpt = 0
             for i in range(len(self.treeslocations)/2):
@@ -310,6 +311,7 @@ class TestThomas2DRota(gym.Env):
                 self.viewer.add_geom(self.truc[cpt])
                 cpt+=1
              
+            #affichage fuites
             self.fuites_render = []   
             cpt = 0
             for i in range(len(self.fuites)):
@@ -320,17 +322,20 @@ class TestThomas2DRota(gym.Env):
                 self.viewer.add_geom(self.fuites_render[cpt])
                 cpt+=1
                 
+            #affichage zone batterie
             l,r,t,b = -cartwidth,cartwidth,cartheight,-cartheight
             zone_b = rendering.FilledPolygon([(self.battery_zone[0]*screen_width/10+l,self.battery_zone[1]*screen_height/10+b), (self.battery_zone[0]*screen_width/10+l,self.battery_zone[1]*screen_height/10+t), (self.battery_zone[0]*screen_width/10+r,self.battery_zone[1]*screen_height/10+t), (self.battery_zone[0]*screen_width/10+r,self.battery_zone[1]*screen_height/10+b)])
             zone_b.set_color(1,1,0)
             self.viewer.add_geom(zone_b)
             
+            #affichage zone eau
             self.zone_w = rendering.FilledPolygon([(self.water_zone[0]*screen_width/10+l,self.water_zone[1]*screen_height/10+b), (self.water_zone[0]*screen_width/10+l,self.water_zone[1]*screen_height/10+t), (self.water_zone[0]*screen_width/10+r,self.water_zone[1]*screen_height/10+t), (self.water_zone[0]*screen_width/10+r,self.water_zone[1]*screen_height/10+b)])
             self.zone_w.set_color(0,0,1)
             self.viewer.add_geom(self.zone_w)
             
+            #affichage etat réservoir robot
             l,r,t,b = -10,10,10,-10
-            self.reservoir_render = rendering.FilledPolygon([(650+l, 325+b),(650 + l, 325+t),(650+r, 325+t),(650+r,325+b)])
+            self.reservoir_render = rendering.FilledPolygon([(650+l, 325+b),(650+l, 325+t),(650+r, 325+t),(650+r,325+b)])
             self.reservoir_render.set_color(0,0,1)
             self.viewer.add_geom(self.reservoir_render)
             
@@ -341,28 +346,34 @@ class TestThomas2DRota(gym.Env):
 	carty = x[1]*scale+screen_height/2
 	self.carttrans.set_rotation(x[2])
         self.carttrans.set_translation(cartx, carty)
+        #changement couleur arbre
         for i in range(len(self.treeslocations)/2):
             if(x[i+4]==1):
                 self.truc[i].set_color(1,0,0)
             else:
 		self.truc[i].set_color(0,1,0)
-		
+	
+	#changement couleur fuite
 	for i in range(len(self.fuites)):
             if(self.fuites[i]==1):
                 self.fuites_render[i].set_color(0,0,1)
             else:
 		self.fuites_render[i].set_color(0,0,0)
 		
+	#le problème est juste ici.
 	reservoir_color = (self.reservoir_lim-self.reservoir)/self.reservoir_lim
 	print(self.reservoir_lim)
 	print(self.reservoir)
 	print(self.reservoir/self.reservoir_lim)
 	print(reservoir_color)
 	self.reservoir_render.set_color(reservoir_color,reservoir_color,1)
+	
+	#changement couleur cart selon la temperature
 	red_color = self.temperature /self.tempLim
 	self.chose[0].set_color(red_color,0,0)
+	#changement couleur zone eau
 	blue_color = 1-(self.water_reserve/self.water_reserve_lim)
 	print(blue_color)
 	self.zone_w.set_color(blue_color,blue_color,1)
-	print("hello world")
+	#print("hello world")
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
