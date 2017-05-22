@@ -87,7 +87,7 @@ class TestThomas2DRota(gym.Env):
     def _step(self, action):
 	screen_width = 600
         screen_height = 600
-	
+        
         world_width = self.x_threshold*2
         scale = screen_width/world_width
         cartwidth = 20.0
@@ -143,7 +143,9 @@ class TestThomas2DRota(gym.Env):
 	#movement
 	vitesse= 0
 	if (action == 1):
-		vitesse = self.vit
+		vitesse = -self.vit 
+	#else :
+	#	vitesse = 0
 	elif (action == 0):
 		vitesse = -self.vit
 
@@ -152,15 +154,37 @@ class TestThomas2DRota(gym.Env):
 		vitesse_rota = self.rota_speed
 	elif (action == 4):
 		vitesse_rota = -self.rota_speed
-	#vitesse = 1
+	vitesse = 1
 	theta = theta + self.tau*vitesse_rota*10
 	
+	#xmax = 0.32
+	#xmin = -0.49
+	#ymin = -0.41
+	#ymax = 0.4
 	sintheta = np.sin(theta)
 	costheta = np.cos(theta)
-        x  = x + self.tau * vitesse* costheta
-	y = y + self.tau * vitesse * sintheta
-
-
+	
+	print('x : ' + str(self.state[0]*scale/screen_width))
+	print('y : ' + str(self.state[1]*scale/screen_width))	
+	
+	if (-0.49<(self.state[0]*scale/screen_width)<0.32 and -0.41<(self.state[1]*scale/screen_width)<0.4):
+        	x  = x + self.tau * vitesse* costheta
+		y = y + self.tau * vitesse * sintheta
+	elif (((self.state[1]*scale/screen_width)>=0.4) and ((sintheta > 0 and action == 1) or (sintheta <0 and action == 0))):
+		x = x + self.tau*vitesse*costheta
+		y = y
+	elif (((self.state[1]*scale/screen_width)<=-0.41) and ((sintheta < 0 and action == 1) or (sintheta >0 and action == 0))):
+		x = x + self.tau*vitesse*costheta
+		y = y
+		
+	elif (((self.state[0]*scale/screen_width)<=-0.49) and ((costheta < 0 and action == 1) or (sintheta >0 and action == 0))):
+		x = x 
+		y = y+ self.tau*vitesse*sintheta
+		
+	elif (((self.state[0]*scale/screen_width)>=0.32) and ((costheta > 0 and action == 1) or (sintheta <0 and action == 0))):	
+		x = x 
+		y = y+ self.tau*vitesse*sintheta
+		
 	#filling zone
 	#battery
 	if ( (0.1*self.battery_zone[0]-x_lim<self.state[0]*scale/screen_width+0.5<0.1*self.battery_zone[0]+x_lim) and (0.1*self.battery_zone[1]-y_lim<self.state[1]*scale/screen_width+0.5<0.1*self.battery_zone[1]+y_lim) and self.battery<self.battery_lim):
@@ -213,7 +237,7 @@ class TestThomas2DRota(gym.Env):
 	#state of trees
         for i in range(len(self.treeslocations)/2):
             b = treesStatesList[i]
-            if((treesStatesList[i]==0) and (self.np_random.uniform(0,1)>0.8)):
+            if((treesStatesList[i]==0) and (self.np_random.uniform(0,1)>0.95)):
                 b=1
             treesStates += (b,)
         self.state = (x,y,theta,theta_dot) + treesStates 
@@ -265,6 +289,8 @@ class TestThomas2DRota(gym.Env):
 	self.reservoir = self.reservoir_lim
 	self.water_reserve = self.water_reserve_lim
 	self.stepcount = 50
+	self.fuites = [0,0,0,0,0,0,0,0];
+	self.fuites_count = 0
 	print(self.state)
         self.steps_beyond_done = None
         return np.array(self.state)
@@ -292,10 +318,10 @@ class TestThomas2DRota(gym.Env):
             self.viewer = rendering.Viewer(screen_width, screen_height, display=self.display)
             
             #affichage robot
-            l,r,t,b = -cartwidth/2, cartwidth/2, cartheight/2, -cartheight/2
+            l,rt,rb,t,b = -cartwidth/2, 15,15, cartheight/2, -cartheight/2
             axleoffset =cartheight/4.0
 	    self.chose = []
-            cart = rendering.FilledPolygon([(l,b), (l,t), (r,t), (r,b)])
+            cart = rendering.FilledPolygon([(l,b), (l,t), (rt,t), (rb,b), (rt,rb)])
 	    self.chose.append(cart)
             self.carttrans = rendering.Transform()
             cart.add_attr(self.carttrans)
@@ -339,7 +365,7 @@ class TestThomas2DRota(gym.Env):
             self.zone_w.set_color(0,0,1)
             self.viewer.add_geom(self.zone_w)
             
-            #affichage etat réservoir robot
+            #affichage etat reservoir robot
             l,r,t,b = -10,10,10,-10
             self.reservoir_render = rendering.FilledPolygon([(650+l, 325+b),(650+l, 325+t),(650+r, 325+t),(650+r,325+b)])
             self.reservoir_render.set_color(0,0,1)
@@ -366,12 +392,12 @@ class TestThomas2DRota(gym.Env):
             else:
 		self.fuites_render[i].set_color(0,0,0)
 		
-	#le problème est juste ici.
+	#le probleme est juste ici.
 	reservoir_color = (self.reservoir_lim-self.reservoir)/self.reservoir_lim
-	print(self.reservoir_lim)
-	print(self.reservoir)
-	print(self.reservoir/self.reservoir_lim)
-	print(reservoir_color)
+	#print(self.reservoir_lim)
+	#print(self.reservoir)
+	#print(self.reservoir/self.reservoir_lim)
+	#print(reservoir_color)
 	self.reservoir_render.set_color(reservoir_color,reservoir_color,1)
 	
 	#changement couleur cart selon la temperature
@@ -379,7 +405,7 @@ class TestThomas2DRota(gym.Env):
 	self.chose[0].set_color(red_color,0,0)
 	#changement couleur zone eau
 	blue_color = 1-(self.water_reserve/self.water_reserve_lim)
-	print(blue_color)
+	#print(blue_color)
 	self.zone_w.set_color(blue_color,blue_color,1)
 	#print("hello world")
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
