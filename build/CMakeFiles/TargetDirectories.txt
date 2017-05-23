@@ -1,5 +1,0 @@
-/home/vagneron/torch/build/exe/luajit-rocks/luajit-2.1/CMakeFiles/buildvm.dir
-/home/vagneron/torch/build/exe/luajit-rocks/luajit-2.1/CMakeFiles/libluajit.dir
-/home/vagneron/torch/build/exe/luajit-rocks/luajit-2.1/CMakeFiles/luajit.dir
-/home/vagneron/torch/build/exe/luajit-rocks/luajit-2.1/CMakeFiles/luajit-static.dir
-/home/vagneron/torch/build/exe/luajit-rocks/luajit-2.1/CMakeFiles/minilua.dir

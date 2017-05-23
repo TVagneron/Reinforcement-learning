@@ -1,0 +1,8 @@
+README
+
+Rappels commit git:
+
+ git status
+ git add file_to_add
+ git commit -m "description"
+ git push origin master
