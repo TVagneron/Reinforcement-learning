@@ -18,14 +18,19 @@ def files(path):
 
 try:
 	print('---------------------------------------------------------------')
-	print(' addEnv -- add a new environment in gym set up with virtualenv. The env is pushed in classic_control group ')
-	newEnvName = "CartPole-v6"
-	className = "TestThomas2DRotalittle"
-	print(' The id of this env will be ' + newEnvName)
+	print(' addEnv -- add new environments in gym set up with virtualenv. The env is pushed in classic_control group ')
 	print('---------------------------------------------------------------')
 	print('I modify files in gym (which is set up in ' + os.environ['VIRTUAL_ENV'] + ').')
+	cpt = 10
 	for srcfile in files(os.getcwd()):
 		if ('.py' in srcfile) and ('addEnvClassicControl' not in srcfile) and ('~' not in srcfile):
+			print("----------------------")		
+			print("Add " + srcfile)
+			newEnvName = "CartPole-v" + str(cpt)
+			cpt = cpt + 1
+			
+			className = ""
+			print(' The id of this env will be ' + newEnvName)
 			envfilename = os.getcwd() + '/' + srcfile 	
 			envfile = open(envfilename,"r")
 			
@@ -35,17 +40,15 @@ try:
 					line = line.replace("(gym.Env):","")
 					line = line.replace(" ","")
 					line = line.replace("\n","")
-					cRlassName = line
-					print(className)
-			
+					className = line
+					print("the class name is " + className)
 			#torch-twrl/venv/lib/python2.7/site-packages/gym/envs/__init__.py
 			general_init_file_path = get_python_lib() + '/gym/envs/__init__.py'
-			print(general_init_file_path)
 			general_init_file = open(general_init_file_path,"r")
 			gen_init_def = isInFile(newEnvName,general_init_file) 
-			print(gen_init_def)
 			general_init_file.close()
 			if not gen_init_def:
+				print("     I modify " + general_init_file_path)
 				general_init_file_write = open(general_init_file_path,"a")
 				general_init_file_write.write("\nregister(\n")
 				general_init_file_write.write("    id='" + newEnvName +"',\n")
@@ -59,9 +62,9 @@ try:
 			init_file_path = get_python_lib() + '/gym/envs/classic_control/__init__.py'
 			init_file = open(init_file_path,"r")
 			init_def = isInFile(srcfile.replace('.py',''),init_file) 
-			print(init_def)
 			init_file.close()
 			if not init_def:
+				print("     I modify " + init_file_path)
 				init_file_write = open(init_file_path,"a")
 				init_file_write.write("from gym.envs.classic_control." + srcfile.replace('.py','') + " import " + className + "\n")
 				init_file_write.close()
@@ -71,9 +74,9 @@ try:
 			sb_init_file_path = get_python_lib() + '/gym/scoreboard/__init__.py'
 			sb_init_file = open(sb_init_file_path,"r")
 			sb_init_def = isInFile(newEnvName,sb_init_file)
-			print(sb_init_def)
 			sb_init_file.close()
 			if not sb_init_def:
+				print("     I modify " + sb_init_file_path)
 				sb_init_file_read = open(sb_init_file_path,"r")
 				sb_file_lines = []
 				for line in sb_init_file_read:
