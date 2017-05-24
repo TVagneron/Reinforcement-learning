@@ -25,7 +25,7 @@ try:
 	print('---------------------------------------------------------------')
 	print('I modify files in gym (which is set up in ' + os.environ['VIRTUAL_ENV'] + ').')
 	for srcfile in files(os.getcwd()):
-		if ('.py' in srcfile) and ('addEnvClassicControl.py' not in srcfile) and ('~' not in srcfile):
+		if ('.py' in srcfile) and ('addEnvClassicControl' not in srcfile) and ('~' not in srcfile):
 			envfilename = os.getcwd() + '/' + srcfile 	
 			envfile = open(envfilename,"r")
 			
