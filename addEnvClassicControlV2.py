@@ -35,7 +35,7 @@ try:
 					line = line.replace("(gym.Env):","")
 					line = line.replace(" ","")
 					line = line.replace("\n","")
-					className = line
+					cRlassName = line
 					print(className)
 			
 			#torch-twrl/venv/lib/python2.7/site-packages/gym/envs/__init__.py
@@ -94,10 +94,10 @@ try:
 				sb_init_file_write.write("registry.finalize()\n")	
 				sb_init_file_write.close()
 
-			print("do you want to run this with reinforce, tdlambda or random?"
-			method = input()
+			print("do you want to run this with reinforce, tdlambda or random?")
+			method = raw_input("enter it here : ")
 			
-			if (method == "reinforce):
+			if (method == "reinforce"):
 				#torch-twrl/examples/cartpole-pg.sh
 				# example file creation
 				print("creation of an example file for " + newEnvName)
@@ -130,6 +130,7 @@ try:
 				new_example_file.write("   -verboseUpdate true \\\n")
 				new_example_file.write("   -uploadResults false \\\n")
 				new_example_file.write("   -renderAllSteps false \n")		
+				new_example_file.close()
 		
 			elif(method == "tdlambda"):
 				print("creation of an example file for " + newEnvName)
@@ -151,6 +152,7 @@ try:
    				new_example_file.write("   -initialWeightVal 0 \\\n")
    				new_example_file.write("   -tdLearnUpdate SARSA \\\n")
    				new_example_file.write("   -relativeAlpha 0.05 \n")
+				new_example_file.close()
 
 			elif(method == "random"):
 				print("creation of an example file for " + newEnvName)
@@ -169,7 +171,7 @@ try:
    				new_example_file.write("   -video 0 \\\n")
    				new_example_file.write("   -renderAllSteps false \\\n")
    				new_example_file.write("   -nIterations 10 \n")
-
+				new_example_file.close()
 
 
 			# update torch-twrl/venv/lib/python2.7/site-packages/gym/envs/classic_control/testcodethomas.py
