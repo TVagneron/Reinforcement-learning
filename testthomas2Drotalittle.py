@@ -231,7 +231,7 @@ class TestThomas2DRotalittle(gym.Env):
 		d = np.sqrt(np.power((np.absolute(0.1*self.treeslocations[i]))-(np.absolute(self.state[0]*scale/screen_width+0.5)),2)+np.power((np.absolute(0.1*self.treeslocations[i+(len(self.treeslocations)/2)])-np.absolute(self.state[1]*scale/screen_width+0.5)),2))
 		if (d<0.05 and self.state[4+i]==1 and action == 2):
 			treesStatesList[i] = 0
-			self.counter += 1			
+			reward = 1.0
 
 	
 	#state of trees
@@ -260,21 +260,21 @@ class TestThomas2DRotalittle(gym.Env):
 	#ending conditions
 	if (self.temperature == self.tempLim):
 		done = True
-		reward = self.counter
+
 		return np.array(self.state), reward, done, {}
 	elif (self.battery == 0):
 		done = True
-		reward = self.counter
+
 		return np.array(self.state), reward, done, {}
 	elif (self.reservoir == 0):
 		done = True
-		reward = self.counter
+
 		return np.array(self.state), reward, done, {}
 	elif (self.count == 20000):
 		done = True
-		reward = self.counter
+
         
-	reward = self.counter
+
 	return np.array(self.state), reward, done, {}
 
     def _reset(self):

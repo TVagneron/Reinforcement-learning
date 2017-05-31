@@ -21,7 +21,7 @@ try:
 	print(' addEnv -- add new environments in gym set up with virtualenv. The env is pushed in classic_control group ')
 	print('---------------------------------------------------------------')
 	print('I modify files in gym (which is set up in ' + os.environ['VIRTUAL_ENV'] + ').')
-	cpt = 10
+	cpt = 15
 	for srcfile in files(os.getcwd()):
 		if ('.py' in srcfile) and ('addEnvClassicControl' not in srcfile) and ('~' not in srcfile):
 			print("----------------------")		
@@ -97,10 +97,10 @@ try:
 				sb_init_file_write.write("registry.finalize()\n")	
 				sb_init_file_write.close()
 
-			print("do you want to run this with reinforce, tdlambda or random?")
+			print("do you want to run this with 1 (reinforce), 2 (tdlambda) or 3 (random)?")
 			method = raw_input("enter it here : ")
 			
-			if (method == "reinforce"):
+			if (method == "1"):
 				#torch-twrl/examples/cartpole-pg.sh
 				# example file creation
 				print("creation of an example file for " + newEnvName)
@@ -135,7 +135,7 @@ try:
 				new_example_file.write("   -renderAllSteps false \n")		
 				new_example_file.close()
 		
-			elif(method == "tdlambda"):
+			elif(method == "2"):
 				print("creation of an example file for " + newEnvName)
 				new_example_file_name = os.getcwd() + '/../examples/' + newEnvName + '-td.sh'
 				new_example_file = open(new_example_file_name,"w")
@@ -157,7 +157,7 @@ try:
    				new_example_file.write("   -relativeAlpha 0.05 \n")
 				new_example_file.close()
 
-			elif(method == "random"):
+			elif(method == "3"):
 				print("creation of an example file for " + newEnvName)
 				new_example_file_name = os.getcwd() + '/../examples/' + newEnvName + '-td.sh'
 				new_example_file = open(new_example_file_name,"w")
