@@ -40,12 +40,12 @@ class TestThomasDeter(gym.Env):
 	self.worldWidth2 = 2*24*math.pi/360
         
 	# Observation space definition (TODO redefine with actual observation space)
-        high = np.array([
-            self.worldWidth,
-            np.finfo(np.float32).max,
-            self.worldWidth2,
-            np.finfo(np.float32).max]+[0]*len(self.treeslocations))
-	self.observation_space = spaces.Box(-high, high)
+        high = np.array([0]*len(self.treeslocations))
+	self.observation_space = spaces.Box(-high, high) # TODO TODO TODO WARNING: between -0 and 0!!! 
+# TODO
+# self.observation_space = spaces.Discrete(2)
+# loop from 1 to nbtree
+# self.observation_space = Tuple(spaces.Discrete(2), self.observation_space )
 
 	# seed, init values, viewer reset
         self._seed()
@@ -75,16 +75,10 @@ class TestThomasDeter(gym.Env):
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
         state = self.state
 
-	# parse state (TODO see "Observation space definition")
-	# continuous states
-        x = state[0]
-        x_dot = state[1]
-        theta = state[2]
-        theta_dot = state[3]
-	# fire states
+	# parse state (fire states)
         treesStatesList = []
 	for i in range(len(self.treeslocations)):
-            treesStatesList.append(state[4+i])
+           treesStatesList.append(state[i])
 	treesStates = ()
 
 	# fire starter	
@@ -94,7 +88,7 @@ class TestThomasDeter(gym.Env):
         	self.timecount = 0
         	
 	# ONLY ONE FIRE AT EACH STEP
-        if (treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0): # and (self.firetrees == 0):
+        if (treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0):
             	treesStatesList[self.currentFireIndex] = 1 # ON FIRE!!
                 self.firetrees = 1
                 self.currentFireIndex += 1
@@ -111,7 +105,7 @@ class TestThomasDeter(gym.Env):
         		reward = 0.0 		# NO REWARD
 	for i in range(len(self.treeslocations)):
                	treesStates += (treesStatesList[i],)
-	self.state = (x,x_dot,theta,theta_dot) + treesStates 
+	self.state = treesStates 
 	
 	self.count += 1
 	done = False
@@ -123,10 +117,10 @@ class TestThomasDeter(gym.Env):
 	return np.array(self.state), reward, done, {}
 
     def _reset(self):
-        treesStates = []
+	treesStates = ()
         for i in range(len(self.treeslocations)):
-            treesStates.append(0)
-        self.state = np.concatenate( (self.np_random.uniform(low=-0.05, high=0.05, size=(4,)),treesStates), axis=0) # INIT
+	     treesStates += (0,)
+        self.state = treesStates
 	self.currentFireIndex = 0
 	self.count = 0
 	self.timecount = 0
@@ -165,7 +159,7 @@ class TestThomasDeter(gym.Env):
         x = self.state
 	# tree color management
         for i in range(len(self.treeslocations)):
-            if(x[i+4]==1):
+            if(x[i]==1):
                 self.truc[i].set_color(1,0,0)
             else:
 		self.truc[i].set_color(0,1,0)
