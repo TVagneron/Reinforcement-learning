@@ -159,7 +159,7 @@ try:
 
 			elif(method == "3"):
 				print("creation of an example file for " + newEnvName)
-				new_example_file_name = os.getcwd() + '/../examples/' + newEnvName + '-td.sh'
+				new_example_file_name = os.getcwd() + '/../examples/' + newEnvName + '-rd.sh'
 				new_example_file = open(new_example_file_name,"w")
 				new_example_file.write('#! /bin/bash\n')
 				new_example_file.write('\n')
@@ -167,13 +167,13 @@ try:
 				new_example_file.write("echo \"Random agent on " + newEnvName + " Environment\"\n")
 				new_example_file.write("echo '************************************'\n")
 				new_example_file.write("th run.lua \\\n")
-   				new_example_file.write("   -env 'CartPole-v0' \\\n")
+   				new_example_file.write("   -env '" + newEnvName + "' \\\n")
    				new_example_file.write("   -policy random \\\n")
    				new_example_file.write("   -learningUpdate noLearning \\\n")
    				new_example_file.write("   -model noModel \\\n")
-   				new_example_file.write("   -video 0 \\\n")
+   				new_example_file.write("   -video 50 \\\n")
    				new_example_file.write("   -renderAllSteps false \\\n")
-   				new_example_file.write("   -nIterations 10 \n")
+   				new_example_file.write("   -nIterations 100 \n")
 				new_example_file.close()
 
 

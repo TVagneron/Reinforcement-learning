@@ -23,14 +23,14 @@ class TestThomasReduit(gym.Env):
     def __init__(self):
         self.tau = 0.02  # seconds between state updates
 	#Initial datas
-	self.vit = 1
+	self.vit = 1.0
         self.treeslocations = [3.0, 8.0];
 	#Initilisation of ending counters
 	self.count = 0
 	self.counter = 0
 	self.currentFireIndex = 0
         # Angle at which to fail the episode
-        self.x_threshold = 1
+        self.x_threshold = 1.0
 
         # Angle limit set to 2 * theta_threshold_radians so failing observation is still within bounds$
         high_value = [1]
@@ -39,7 +39,7 @@ class TestThomasReduit(gym.Env):
 	upper_space = np.array([self.x_threshold]+high_value*len(self.treeslocations))
 	lower_space = np.array([-self.x_threshold]+low_value*len(self.treeslocations))
 	self.observation_space = spaces.Box(lower_space, upper_space)
-
+	#print(self.observation_space)
 
         self.action_space = spaces.Discrete(3)
 
@@ -87,7 +87,7 @@ class TestThomasReduit(gym.Env):
         	self.timecount = 0
 	
 	#state of trees
-	if ((treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0) and self.firetrees == 0):
+	if ( (treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0) and (self.firetrees == 0)):
             	treesStatesList[self.currentFireIndex] = 1 # ON FIRE!!
                 self.firetrees = 1
                 self.currentFireIndex += 1
@@ -95,20 +95,21 @@ class TestThomasReduit(gym.Env):
                 	self.currentFireIndex = 0
        
 	#movement
-	vitesse = 0
-	if (action == 1 and x<self.x_threshold):
-		vitesse = self.vit
-	elif (action == 0 and x > -self.x_threshold):
+	vitesse = 0.0
+	if ( (action == 1) and ( x < self.x_threshold-2*self.tau*self.vit) ):
+		vitesse = self.vit*0.0
+	elif ( (action == 0) and (x > -self.x_threshold + 2*self.tau*self.vit) ):
 		vitesse = -self.vit
 	#vitesse = 1
         x  = x + self.tau * vitesse
 	#action of extinguishing the fire
-	for i in range(len(self.treeslocations)):
-		if (((self.treeslocations[i]-5)/5-0.05<x<(self.treeslocations[i]-5)/5+0.05) and self.state[1+i]==1 and action == 2):
+	for i in range( len(self.treeslocations) ):
+		if ( ((self.treeslocations[i]-5)/5*self.x_threshold-0.05 < x) and (x < (self.treeslocations[i]-5)/5*self.x_threshold+0.05) and (self.state[1+i]==1) and (action == 2) ):
 			treesStatesList[i] = 0
 			reward = 1.0
-			self.timecount += 1			
-
+			self.timecount += 1
+			self.firetrees = 0
+			
 	for i in range(len(self.treeslocations)):
                	treesStates += (treesStatesList[i],)
 
@@ -124,8 +125,9 @@ class TestThomasReduit(gym.Env):
 	#ending conditions
 	if (self.count == 20000):
 		done = True
+        #print(self.state)
         print(self.state)
-	return np.array(self.state), reward, done, {}
+        return np.array(self.state), reward, done, {}
 
     def _reset(self):
         treesStates = ()
@@ -136,7 +138,7 @@ class TestThomasReduit(gym.Env):
 	self.count = 0
 	self.timecount = 0
 	self.firetrees = 0
-	print(self.state)
+	#print(self.state)
         return np.array(self.state)
     def _render(self, mode='human', close=False):
         if close:
