@@ -97,7 +97,7 @@ class TestThomasReduit(gym.Env):
 	#movement
 	vitesse = 0.0
 	if ( (action == 1) and ( x < self.x_threshold-2*self.tau*self.vit) ):
-		vitesse = self.vit*0.0
+		vitesse = self.vit
 	elif ( (action == 0) and (x > -self.x_threshold + 2*self.tau*self.vit) ):
 		vitesse = -self.vit
 	#vitesse = 1
@@ -126,7 +126,6 @@ class TestThomasReduit(gym.Env):
 	if (self.count == 20000):
 		done = True
         #print(self.state)
-        print(self.state)
         return np.array(self.state), reward, done, {}
 
     def _reset(self):
