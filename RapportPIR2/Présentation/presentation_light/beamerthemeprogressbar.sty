@@ -1,0 +1,107 @@
+\usetheme{Rochester} 
+\RequirePackage{pgf,tikz}
+\usepackage{color}
+
+
+\pgfdeclareimage[width=1.0\paperwidth]{beamer-onera-head}{beamer-onera-head}
+\pgfdeclareimage[width=1.0\paperwidth]{beamer-onera-bottom}{beamer-onera-bottom}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercovered{transparent}
+
+\beamer@headheight=0.1\paperwidth
+
+\definecolor{newBlue}{HTML}{34397c}
+
+\definecolor{airlightblue}{HTML}{0099d5}
+\definecolor{airgray}{HTML}{3e3e3e}
+\definecolor{airlightgray}{HTML}{eeeeee}
+\definecolor{onera}{RGB}{47,99,183}
+\definecolor{onera_dark}{HTML}{092866}
+\definecolor{onera_light}{HTML}{bdd5ed}
+\definecolor{onera_green}{HTML}{cce4d6}
+\setbeamercolor*{Title bar}{fg=newBlue}
+\setbeamercolor*{Location bar}{fg=white,bg=airlightgray}
+\setbeamercolor*{frametitle}{fg=white}
+\setbeamercolor*{block title}{bg=onera_dark,fg=white}
+\setbeamercolor*{block body}{bg=onera_light,fg=airgray}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=onera_green}
+
+\setbeamercolor*{normal text}{bg=white,fg=airgray}
+\setbeamercolor*{section in head/foot}{bg=airgray,fg=airgray}%airdarkblue}
+
+\newdimen\progressbar
+\progressbar=\linewidth
+
+
+\usecolortheme[named=onera]{structure}
+
+\setbeamerfont{section in head/foot}{size=\tiny,series=\normalfont}
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{title}{size=\large}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{frametitle}
+{
+  \vskip-0.25\beamer@headheight
+  \vskip-\baselineskip
+  \vskip-0.3cm
+  \hskip-0.4cm\usebeamerfont*{title}\insertframetitle
+  \vskip-0.10em
+  \hskip-0.3cm\usebeamerfont*{title}\insertframesubtitle
+}
+
+\setbeamertemplate{title page}
+{
+  {
+    \vskip 0.35cm
+    \centering \large \usebeamercolor[fg]{Title bar} \textbf{\inserttitle} \par
+    \vskip 0.3cm
+    \centering \normalsize \usebeamercolor[fg]{Title bar}\insertauthor \par
+    \centering \tiny \usebeamercolor[fg]{Title bar} \aboutauthor \\
+  }
+  \vskip 0.4cm
+  %\normalsize \usebeamercolor[fg]{Title bar} \directeur \\ 
+  %\ifdefined\encadrant \normalsize \usebeamercolor[fg]{Title bar} \encadrant \\ \fi
+}
+
+\setbeamertemplate{headline}
+{
+ \vspace{0.17cm}
+  \insertsectionnavigationhorizontal{\paperwidth}{}{}
+  \vspace{-0.03cm}
+  \pgfuseimage{beamer-onera-head}
+}
+
+
+%%%%%%%%%%%%%%%%%
+
+\ProvidesPackage{beamerthemeprogressbar}[2007/06/21]
+
+% Beamer theme by Sylvain Bouveret <sylvain[dot]bouveret[aT]cert[DoT]fr>
+% jun. 2007 version 0.32
+%
+% based on the LaTeX-Beamer package :
+% Copyright 2003 by Till Tantau <tantau@users.sourceforge.net>
+%
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 2.
+
+\RequirePackage{tikz}
+
+
+\usecolortheme{progressbar}
+%\useinnertheme{progressbar}
+%\usefonttheme{progressbar}
+\useoutertheme{progressbar}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{navigation symbols}{}
+
+\AtBeginDocument{%
+  \typeout{..................................................................}
+  \typeout{You are using the progressbar beamer theme (Sylvain B.)}
+  \typeout{Version: 0.32. Jun. 2007.}
+  \typeout{..................................................................}
+}

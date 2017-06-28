@@ -1,0 +1,79 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: report.aux
+The style file: plain.bst
+Database file #1: references.bib
+Too many commas in name 1 of "W. D. Nothwang, R. M. Robinson, S. A. Burden, M. K. McCourt, J. Williard Curtis" for entry NOTHWANG
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "W. D. Nothwang, R. M. Robinson, S. A. Burden, M. K. McCourt, J. Williard Curtis" for entry NOTHWANG
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "S. C. W. Ong, Shao Wei Png, D. Hsu, Wee Sun Lee" for entry ONG
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "T. Gateau, C. P. Carvalho Chanel, Mai-Hui Le, F. Dehais" for entry GATEAU
+while executing---line 1049 of file plain.bst
+Warning--empty booktitle in FITTS
+Warning--empty year in FITTS
+Warning--empty booktitle in LDARGENT2016
+Warning--empty year in LDARGENT2016
+Warning--empty booktitle in MUNOS1
+Warning--empty year in MUNOS1
+Warning--empty booktitle in SOUZA
+Warning--empty year in SOUZA
+Too many commas in name 1 of "S. C. W. Ong, Shao Wei Png, D. Hsu, Wee Sun Lee" for entry ONG
+while executing---line 1090 of file plain.bst
+Warning--empty booktitle in ONG
+Warning--empty year in ONG
+Too many commas in name 1 of "T. Gateau, C. P. Carvalho Chanel, Mai-Hui Le, F. Dehais" for entry GATEAU
+while executing---line 1090 of file plain.bst
+Warning--empty booktitle in GATEAU
+Warning--empty year in GATEAU
+Too many commas in name 1 of "W. D. Nothwang, R. M. Robinson, S. A. Burden, M. K. McCourt, J. Williard Curtis" for entry NOTHWANG
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "W. D. Nothwang, R. M. Robinson, S. A. Burden, M. K. McCourt, J. Williard Curtis" for entry NOTHWANG
+while executing---line 1090 of file plain.bst
+Warning--empty booktitle in NOTHWANG
+Warning--empty year in NOTHWANG
+Warning--empty booktitle in WILSON
+Warning--empty year in WILSON
+You've used 11 entries,
+            2118 wiz_defined-function locations,
+            549 strings with 5629 characters,
+and the built_in function-call counts, 3031 in all, are:
+= -- 245
+> -- 144
+< -- 0
++ -- 61
+- -- 48
+* -- 193
+:= -- 511
+add.period$ -- 25
+call.type$ -- 11
+change.case$ -- 56
+chr.to.int$ -- 0
+cite$ -- 27
+duplicate$ -- 140
+empty$ -- 288
+format.name$ -- 48
+if$ -- 614
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 11
+newline$ -- 50
+num.names$ -- 22
+pop$ -- 112
+preamble$ -- 1
+purify$ -- 45
+quote$ -- 0
+skip$ -- 69
+stack$ -- 0
+substring$ -- 98
+swap$ -- 12
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 44
+warning$ -- 16
+while$ -- 26
+width$ -- 13
+write$ -- 90
+(There were 8 error messages)

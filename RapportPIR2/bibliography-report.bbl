@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{FITTS}
+P.~M. Fitts.
+\newblock Human engineering for an effective air-navigation and traffic-control
+  system.
+
+\bibitem{LDARGENT2016}
+L.Dargent.
+\newblock Profilage pilote par apprentissage automatique pour reconfiguration
+  ihm.
+
+\bibitem{MUNOS1}
+R.~Munos.
+\newblock Introduction à l'apprentissage par renforcement.
+
+\bibitem{SOUZA}
+F.~Dehais P.~E. U.~Souza, C. P. Carvalho~Chanel.
+\newblock Momdp-based target search mission taking into account the human
+  operator’s cognitive state.
+
+\bibitem{ONG}
+D.~Hsu Wee Sun~Lee S.~C. W.~Ong, Shao Wei~Png.
+\newblock The human should be part of the control loop?
+
+\bibitem{GATEAU}
+Mai-Hui Le F.~Dehais T.~Gateau, C. P. Carvalho~Chanel.
+\newblock Considering human's non-deterministic behavior and his availability
+  state when designing a collaborative human-robots system.
+
+\bibitem{NOTHWANG}
+S.~A. Burden M. K. McCourt J. Williard~Curtis W.~D.~Nothwang, R. M.~Robinson.
+\newblock The human should be part of the control loop?
+
+\bibitem{WILSON}
+M.~M. Wilson.
+\newblock Development of online cardiac feedback for control applications.
+
+\end{thebibliography}

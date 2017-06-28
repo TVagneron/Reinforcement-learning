@@ -1,0 +1,3 @@
+\beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {1}{Context and Goal}{2}{0}{1}
+\beamer@sectionintoc {2}{Alternative uncertainty theories}{15}{0}{2}

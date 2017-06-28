@@ -1,0 +1,33 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+
+\begin{document}
+\begin{figure} \centering
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4}
+\begin{tikzpicture}
+\begin{axis}[grid=major,xmin=1,xmax=1000,ymin=-1,ymax=10,
+xtick={0,100,...,1000},
+%legend entries={score function of learning,legend style={at={(1.52,1.1)}},
+xlabel={Number of episodes},
+ylabel={Score},
+title={Score growing during learning},width=11cm,height=11cm]
+\addplot[color = black, line width=1pt] plot table[x index=0, y index=1]{origin.csv};
+\addplot+[color = blue, line width=1pt] plot table[x index=0, y index=1]{ralpha_01.csv};
+\addplot+[color = red, line width=1pt] plot table[x index=0, y index=1]{ralpha_001.csv};
+\addplot+[color = orange, line width=1pt] plot table[x index=0, y index=1]{ralpha_05.csv};
+\addplot+[color = purple, line width=1pt] plot table[x index=0, y index=1]{ralpha_001.csv};
+\addplot+[color = brown, line width=1pt] plot table[x index=0, y index=1]{ralpha_08.csv};
+
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+\end{document}

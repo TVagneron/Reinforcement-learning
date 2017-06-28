@@ -1,0 +1,41 @@
+\begin{thebibliography}{DDFT15}
+
+\bibitem[DDFT15]{DBLP:conf/sum/DrougardDFT15}
+Nicolas Drougard, Didier Dubois, Jean{-}Loup Farges, and Florent
+  Teichteil{-}K{\"{o}}nigsbuch.
+\newblock Planning in partially observable domains with fuzzy epistemic states
+  and probabilistic dynamics.
+\newblock In {\em Scalable Uncertainty Management - 9th International
+  Conference, {SUM} 2015}, 2015.
+
+\bibitem[GCLD16]{DBLP:2016:conf/iros/GateauCLD16}
+Thibault Gateau, Caroline Ponzoni~Carvalho Chanel, Mai{-}Huy Le, and
+  Fr{\'{e}}d{\'{e}}ric Dehais.
+\newblock Considering human's non-deterministic behavior and his availability
+  state when designing a collaborative human-robots system.
+\newblock In {\em {IEEE/RSJ} International Conference on Intelligent Robots and
+  Systems}, IROS '16, 2016.
+
+\bibitem[NRGS15]{Nikolaidis:2015:EML:2696454.2696455}
+Stefanos Nikolaidis, Ramya Ramakrishnan, Keren Gu, and Julie Shah.
+\newblock Efficient model learning from joint-action demonstrations for
+  human-robot collaborative tasks.
+\newblock In {\em Proceedings of the ACM/IEEE International Conference on
+  Human-Robot Interaction}, HRI '15, 2015.
+
+\bibitem[SCD15]{Souza:2015:MTS:2921564.2921916}
+Paulo Eduardo Ubaldino~de Souza, Caroline Ponzoni~Carvalho Chanel, and Frederic
+  Dehais.
+\newblock Momdp-based target search mission taking into account the human
+  operator's cognitive state.
+\newblock In {\em Proceedings of the IEEE International Conference on Tools
+  with Artificial Intelligence}, ICTAI '15, 2015.
+
+\bibitem[Wil]{Williams04asummary}
+Kevin~W. Williams.
+\newblock A summary of unmanned aircraft accident/incident data: Human factors
+  implications.
+\newblock {\em U.S. Department of Transportation, Federal Aviation
+  Administration, Civil Aerospace Medical Institute}.
+
+\end{thebibliography}

@@ -94,7 +94,7 @@ class TestThomas2DRota(gym.Env):
         cartheight = 20.0
 	x_lim = 0.01*cartwidth*scale/screen_width
 	y_lim = 0.01*cartheight*scale/screen_height
-
+	reward = 0.0
 
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
         state = self.state
@@ -237,7 +237,7 @@ class TestThomas2DRota(gym.Env):
 	#state of trees
         for i in range(len(self.treeslocations)/2):
             b = treesStatesList[i]
-            if((treesStatesList[i]==0) and (self.np_random.uniform(0,1)>0.95)):
+            if((treesStatesList[i]==0) and (self.np_random.uniform(0,1)>0.99)):
                 b=1
             treesStates += (b,)
         self.state = (x,y,theta,theta_dot) + treesStates 

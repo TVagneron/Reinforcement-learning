@@ -87,7 +87,7 @@ class TestThomas2DRotalittle(gym.Env):
     def _step(self, action):
 	screen_width = 300
         screen_height = 300
-        
+        reward = 0.0
         world_width = self.x_threshold*2
         scale = screen_width/world_width
         cartwidth = 20.0

@@ -92,7 +92,7 @@ class TestThomasDeter(gym.Env):
         	self.timecount = 0
         	
 	# ONLY ONE FIRE AT EACH STEP
-        if (treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0):
+        if (treesStatesList[self.currentFireIndex]==0) and (self.timecount == 0) and (self.firetrees == 0):
             	treesStatesList[self.currentFireIndex] = 1 # ON FIRE!!
                 self.firetrees = 1
                 self.currentFireIndex += 1
@@ -117,7 +117,7 @@ class TestThomasDeter(gym.Env):
 	# END OF THE EPISODE
 	if (self.count == 20000):
 		done = True
-        
+        #time.sleep(0.5)
 	return np.array(self.state), reward, done, {}
 
     def _reset(self):
@@ -128,6 +128,7 @@ class TestThomasDeter(gym.Env):
 	self.currentFireIndex = 0
 	self.count = 0
 	self.timecount = 0
+	self.firetrees =0
         return np.array(self.state)
 
 

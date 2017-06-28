@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{graphics}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+\pgfrealjobname{gamma}
+\begin{document}
+\beginpgfgraphicnamed{survey-f1}
+  \begin{tikzpicture}[scale = 0.7]
+  \begin{axis}[
+   grid=major,xmin=1,xmax=1000,ymin=-1,ymax=10,
+   xtick={0,100,...,1000},
+   legend entries={$\epsilon = 0.2$,$\epsilon = 0.4$,$\epsilon = 0.1$,legend style={at={(1.52,1.1)}}},
+   xlabel={Number of episodes},
+   ylabel={Score},
+   title={Score growing during learning},width=11cm,height=11cm]
+   \addplot[color = black, line width=1pt] plot table[x index=0, y index=1]{Z_origin.csv};
+   \addplot+[color = blue, line width=1pt] plot table[x index=0, y index=1]{Z_epsilon4.csv};
+   \addplot+[color = red, line width=1pt] plot table[x index=0, y index=1]{Z_epsilon1.csv};
+   \end{axis}
+   \end{tikzpicture}
+\endpgfgraphicnamed
+
+\end{document}
